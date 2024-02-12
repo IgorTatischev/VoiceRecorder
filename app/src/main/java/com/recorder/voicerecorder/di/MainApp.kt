@@ -15,7 +15,7 @@ class MainApp : Application() {
             androidLogger()
             modules(
                 listOf(
-                    MainModule.module,
+                    MainModule(),
                 )
             )
         }

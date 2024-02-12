@@ -5,17 +5,15 @@ import com.recorder.voicerecorder.presentation.screens.recorder_screen.RecorderV
 import com.recorder.voicerecorder.services.player.MediaPlayerProvider
 import com.recorder.voicerecorder.services.player.RecordingPlayer
 import com.recorder.voicerecorder.services.recorder.ServiceHelper
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 object MainModule {
-    val module = module {
-
-        single { MediaPlayerProvider(context = androidContext()) }
-        single { RecordingPlayer(context = androidContext()) }
-        single { ServiceHelper(context = androidContext()) }
-
+    operator fun invoke() = module {
+        singleOf(::MediaPlayerProvider)
+        singleOf(::RecordingPlayer)
+        singleOf(::ServiceHelper)
         viewModelOf(::RecorderViewModel)
         viewModelOf(::PlayerViewModel)
     }
