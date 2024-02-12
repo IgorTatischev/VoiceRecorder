@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.recorder.voicerecorder.services.recorder.RecorderState
+import com.recorder.voicerecorder.presentation.screens.recorder_screen.RecorderState
 
 @Composable
 fun RecordButton(

@@ -8,7 +8,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.recorder.voicerecorder.R
-import com.recorder.voicerecorder.services.recorder.RecorderState
+import com.recorder.voicerecorder.presentation.screens.recorder_screen.RecorderState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

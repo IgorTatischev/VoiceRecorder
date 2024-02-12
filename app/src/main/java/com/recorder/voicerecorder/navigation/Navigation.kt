@@ -6,29 +6,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.recorder.voicerecorder.presentation.screens.player_screen.PlayerScreen
 import com.recorder.voicerecorder.presentation.screens.recorder_screen.RecorderScreen
-import com.recorder.voicerecorder.services.recorder.RecorderState
 
 @Composable
-fun Navigation(
-    navController: NavHostController,
-    state: RecorderState,
-    hours: String,
-    minutes: String,
-    seconds: String
-) {
+fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screens.Recorder.route
     ) {
 
         composable(route = Screens.Recorder.route) {
-            RecorderScreen(
-                state = state,
-                hours = hours,
-                minutes = minutes,
-                seconds = seconds,
-                navigate = { navController.navigate(Screens.Player.route) }
-            )
+            RecorderScreen(navigate = { navController.navigate(Screens.Player.route) })
         }
 
         composable(route = Screens.Player.route) {

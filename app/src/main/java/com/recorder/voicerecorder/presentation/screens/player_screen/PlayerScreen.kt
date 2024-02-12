@@ -22,11 +22,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -40,7 +37,7 @@ fun PlayerScreen(viewModel: PlayerViewModel = koinViewModel(), onBackPressed: ()
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    val state by viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState().value
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -70,7 +67,10 @@ fun PlayerScreen(viewModel: PlayerViewModel = koinViewModel(), onBackPressed: ()
                         onClick = {
                             viewModel.initMediaPlayer(audio.absolutePath)
                         },
-                        delete = { viewModel.deleteAudio(audio.absolutePath) })
+                        delete = {
+                            viewModel.deleteAudio(audio.absolutePath)
+                        }
+                    )
                 }
             }
             Row(
@@ -90,7 +90,6 @@ fun PlayerScreen(viewModel: PlayerViewModel = koinViewModel(), onBackPressed: ()
                         .defaultMinSize(minWidth = 38.dp, minHeight = 38.dp),
                 ) {
                     Image(
-                        colorFilter = ColorFilter.tint(Color.White),
                         imageVector = Icons.Default.Replay10,
                         contentScale = ContentScale.FillWidth,
                         contentDescription = null
@@ -110,7 +109,6 @@ fun PlayerScreen(viewModel: PlayerViewModel = koinViewModel(), onBackPressed: ()
                     }
                 ) {
                     Image(
-                        colorFilter = ColorFilter.tint(Color.White),
                         imageVector =
                         if (state.isPlaying)
                             Icons.Default.Pause
@@ -130,7 +128,6 @@ fun PlayerScreen(viewModel: PlayerViewModel = koinViewModel(), onBackPressed: ()
                         .defaultMinSize(minWidth = 38.dp, minHeight = 38.dp),
                 ) {
                     Image(
-                        colorFilter = ColorFilter.tint(Color.White),
                         imageVector = Icons.Default.Forward10,
                         contentScale = ContentScale.FillWidth,
                         contentDescription = null

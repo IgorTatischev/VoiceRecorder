@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -27,24 +28,18 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.recorder.voicerecorder.presentation.components.RecordButton
 import com.recorder.voicerecorder.presentation.components.RecorderBottomBar
 import com.recorder.voicerecorder.presentation.components.RecorderTopBar
-import com.recorder.voicerecorder.services.recorder.RecorderState
-import com.recorder.voicerecorder.util.Constants.ACTION_PAUSE_RECORDING
-import com.recorder.voicerecorder.util.Constants.ACTION_RESUME_RECORDING
-import com.recorder.voicerecorder.util.Constants.ACTION_START_RECORDING
-import com.recorder.voicerecorder.util.Constants.ACTION_STOP_RECORDING
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecorderScreen(
-    viewModel: RecorderViewModel = koinViewModel(),
-    state: RecorderState,
-    hours: String,
-    minutes: String,
-    seconds: String,
-    navigate: () -> Unit,
-) {
+fun RecorderScreen(viewModel: RecorderViewModel =  koinViewModel(), navigate: () -> Unit) {
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    val state = viewModel.state.collectAsState().value.record
+    val hours = viewModel.state.collectAsState().value.hours
+    val minutes = viewModel.state.collectAsState().value.minutes
+    val seconds = viewModel.state.collectAsState().value.seconds
 
     CheckPermissions()
 
@@ -58,22 +53,23 @@ fun RecorderScreen(
         },
         bottomBar = {
             RecorderBottomBar(state = state, floatingClick = navigate) {
-                viewModel.serviceEvent(ACTION_STOP_RECORDING)
+                viewModel.onEvent(RecorderEvent.StopRecording)
             }
         },
         floatingActionButton = {
             RecordButton(state = state) {
-                viewModel.serviceEvent(
+                viewModel.onEvent(
                     event = when (state) {
-                        RecorderState.Active -> ACTION_PAUSE_RECORDING
-                        RecorderState.Paused -> ACTION_RESUME_RECORDING
-                        else -> ACTION_START_RECORDING
+                        RecorderState.Active -> RecorderEvent.PauseRecording
+                        RecorderState.Paused -> RecorderEvent.ResumeRecording
+                        else -> RecorderEvent.StartRecording
                     }
                 )
             }
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
+
         Row(
             modifier = Modifier
                 .fillMaxSize()

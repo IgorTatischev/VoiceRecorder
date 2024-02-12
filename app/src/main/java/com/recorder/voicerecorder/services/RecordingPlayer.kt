@@ -1,4 +1,4 @@
-package com.recorder.voicerecorder.services.player
+package com.recorder.voicerecorder.services
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class RecordingPlayer(private val context: Context) {
 
@@ -28,5 +29,15 @@ class RecordingPlayer(private val context: Context) {
             }
             mediaPlayer
         }
+    }
+
+    private val recordFolder = "${context.filesDir}/"
+
+    fun readFiles(): List<File> {
+        return File(recordFolder).listFiles()?.filter { it.name.contains(".mp3") } ?: emptyList()
+    }
+
+    fun deleteFile(path: String) {
+        File(path).delete()
     }
 }

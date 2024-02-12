@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.recorder.voicerecorder.R
-import com.recorder.voicerecorder.services.recorder.RecorderState
+import com.recorder.voicerecorder.presentation.screens.recorder_screen.RecorderState
 
 @Composable
 fun RecorderBottomBar(
